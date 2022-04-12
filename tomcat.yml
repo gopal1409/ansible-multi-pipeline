@@ -1,4 +1,4 @@
-- hosts: webservers
+- hosts: devvm
   become: yes
   tasks:
 
