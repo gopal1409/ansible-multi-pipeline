@@ -5,6 +5,11 @@ pipeline {
         maven "localMaven"
         git "Default"
     }
+    parameters {
+       choice(name: 'choice'
+          choices: 'one\ntwo\n\three',
+          description: 'choose one two three')
+     }
     stages {
         stage('SCM Checkout') {
             steps{
@@ -35,12 +40,19 @@ pipeline {
             }
        }
        stage('Get ansible code') {
+          when {
+                expression {choice == 'one'}
+            }
           steps{
              
                 git "https://github.com/gopal1409/ansible-tomcat-jenkins-script.git"
           }
        }
         stage('execute ansible') {
+        when {
+                expression {choice == 'two'}
+            }
+
           steps{
              
                 sshagent(['ssh-pass-ansible']) {
